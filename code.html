@@ -2,7 +2,7 @@
 <html lang="en" class="h-100">
 
 <head>
-    <title>App Name: A Coding Project by Usher Gluck</title>
+    <title>Taco Cat: A Coding Project by Usher Gluck</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,7 +23,7 @@
     <!-- Nav Section -->
     <nav class="navbar navbar-expand-md navbar-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#"><img src="img/UGLogoInverted.svg" class="d-inline-block" width="25" height="20" >&nbsp;APP NAME</a>
+            <a class="navbar-brand tacoCatFont" href="#"><img src="img/TacoCatLogoBrown.svg" class="d-inline-block" width="21" height="20" >&nbsp;Taco Cat</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
                         <a class="nav-link active" aria-current="page" href="code.html">The Code</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="#">Git Repo</a>
+                        <a class="nav-link" target="_blank" href="https://github.com/Usherg49/TacoCat.git">Git Repo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="#">About</a>
@@ -51,22 +51,194 @@
     </nav>
     <!-- Main Section -->
     <main class="flex-shrink-0">
-        <div class="container py-6 px-5">
-            <h2 class="border-1 border-bottom border-dark">The Code for APP NAME</h2>
+        <div class="container py-6 px-3">
+            <h2 class="border-1 border-bottom border-dark">The Code for Taco Cat</h2>
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers"><code class="language-javascript">
-                            //Call hello world
-                            function helloWorld(){
-                                alert("Hello World")
+                        //Get the string from the page
+                        //Controller function
+                        function getValue(){
+
+                            //Controls the div that displays the results (hidden for now)
+                            document.getElementById("alert").classList.add("invisible");
+
+                            //Get the user input
+                            let userString = document.getElementById("userString").value;
+
+                            let modString = modifyString(userString);
+
+                            //Validate user input, remove spaces, and to lower case
+                            if(modString.length > 0 && userString.length < 200){
+                                
+                                //Reverse the modified string
+                                let revString = reverseString(modString);
+                                
+                                //Compare the user's string to its reversed version
+                                let pal = checkForPalindrome(modString, revString);
+
+                                //Tell user if palindrome or not
+                                if(pal == true){
+                                    displayString(userString);
+                                }else{
+                                    notPalindrome(userString);
+                                }
+                            }else{
+                                if(modString.length == 0){
+                                    tooShort();
+                                }else{
+                                    tooLong();
+                                }
                             }
+                        }
+
+                        //Remove spaces and make all lowercase in user's string
+                        function modifyString(userString){
+
+                            userString = userString.toLowerCase();
+                            let regex = /[^a-z0-9\u0590-\u05fe]/gi;
+                            let modifiedString = userString.replace(regex,"");
+
+                            return modifiedString;
+                        }
+
+                        //Reverse the string
+                        //Logic function
+                        function reverseString(modString){
+
+                            let revString = [];
+
+                            //Reverse a string using a for-loop
+                            for (let i = modString.length - 1; i >= 0; i--) {
+                                if(modString[i] == " "){
+                                    continue
+                                }else{
+                                    revString += modString[i];
+                                }
+                            }
+                            return revString;
+                        }
+
+                        //Compare reversed string to user's string
+                        function checkForPalindrome(modString, revString){
+                            let pal = modString == revString ? true : false;
+                            return pal;
+                        }
+
+                        //Display reversed string to the user
+                        //View function
+                        function displayString(revString){
+
+                            //Write the message to the page
+                            document.getElementById("msg").innerHTML = `<strong>Yup! ${revString} is a palindrome.</strong>`;
+
+                            //Turn on the alert box
+                            document.getElementById("alert").classList.remove("invisible");
+                        }
+
+                        //Error functions
+                        function tooShort(){
+                            
+                            //Error message for empty input
+                            document.getElementById("msg").innerHTML = "<strong>You must enter content to play.</strong>";
+
+                            //Turn on the alert box
+                            document.getElementById("alert").classList.remove("invisible");
+                        }
+
+                        function tooLong(){
+                            
+                            //Error message for empty input
+                            document.getElementById("msg").innerHTML = "<strong>Your input is too long. Try something with a maximum of 200 characters.</strong>";
+
+                            //Turn on the alert box
+                            document.getElementById("alert").classList.remove("invisible");
+                        }
+
+                        function notPalindrome(userString){
+                            
+                            //Error message for empty input
+                            document.getElementById("msg").innerHTML = `<strong>Sorry! ${userString} is not a palindrome.</strong>`;
+
+                            //Turn on the alert box
+                            document.getElementById("alert").classList.remove("invisible");
+                        }
+
+                        //Reset function
+                        function clearFields(){
+                            
+                            //Clear text input
+                            document.getElementById("userString").value = "";
+
+                            //Hide the alert with previously reversed strings
+                            document.getElementById("alert").classList.add("invisible");
+                        }
+
+                        //Allow app to be run by pressing "Enter"
+                        document.getElementById("userString").addEventListener("keypress",function(event){
+                            if(event.key === "Enter"){
+                                event.preventDefault();
+                                document.getElementById("btnSubmit").click(getValue);
+                                document.getElementById("userString").blur();
+                            }
+                        });
                         </code>
                     </pre>
                 </div>
                 <div class="col-lg-4">
-                    <p>The Code is Structured in one Function.</p>
-                    <h5>Hello World</h5>
-                    <p>Hello World is a function that displays an alert with the message: "Hello World".</p>
+                    <h2 class="text-center">Taco Cat</h2>
+                    <h5>Controller function</h5>
+                    <p>
+                        With the <code>getValue</code> function serving as the controller function, 
+                        it uses several other functions to determine whether the user-entered string 
+                        is a palindrome before displaying the results to the user.
+                    </p>
+                    <h5>Validation function</h5>
+                    <p>
+                        After getting the user input, <code>getValue</code> calls the <code>modifyString</code> 
+                        function to convert all characters <code>toLowerCase</code>, and remove 
+                        all spaces and special characters from the string. The <code>modifyString</code> 
+                        function uses a regex which only allows numbers 0-9, English and Hebrew alphabet, 
+                        before returning the modified string and storing it in the <code>modString</code> variable.
+                    </p>
+                    <h5>String reversal function</h5>
+                    <p>
+                        Before calling the second function, <code>getValue</code> validates the user input, 
+                        and then calls the <code>reverseString</code> function, which uses a for-loop 
+                        to add the user's (modified) string into an array in reverse. This array is 
+                        stored in the <code>revString</code> variable.
+                    </p>
+                    <h5>Logic function I</h5>
+                    <p>
+                        The third function, <code>checkForPalindrome</code> takes the two <code>modString</code> 
+                        and <code>revString</code> parameters and compares them to one another. The result is 
+                        returned as a Boolean in the <code>pal</code> variable.
+                    </p>
+                    <h5>Logic function II</h5>
+                    <p>
+                        Based on whether <code>pal</code> is true or false, the <code>getValue</code> 
+                        controller function will call on one of two functions: <code>displayString</code> or 
+                        <code>notPalindrome</code>.
+                    </p>
+                    <h5>Display function</h5>
+                    <p>
+                        <code>displayString</code> and the <code>notPalindrom</code> use template literals 
+                        to display a message with either the user input, indicating that it is a valid palindrome, 
+                        or with an error. This message is made visible by removing the <code>invisible</code> 
+                        class from the display element.
+                    </p>
+                    <h5>Error function</h5>
+                    <p>
+                        The <code>tooLong</code> and <code>tooShort</code> methods were also added, 
+                        which are used in the validation stage. The <code>clearFields</code> function is there 
+                        to allow the user to start over. Placing the cursor in the text box will initiate this 
+                        function.
+                    </p>
+                    <h5>Enter function</h5>
+                    <p>
+                        <strong>Note</strong>: At the bottom of the page, I added the script from the html page. This adds an 
+                        event listener that calls the <code>getValue</code> when the “enter” key is pressed.
+                    </p>
                 </div>
             </div>
         </div>
